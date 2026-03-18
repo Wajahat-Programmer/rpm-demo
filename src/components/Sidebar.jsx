@@ -20,8 +20,8 @@ const Sidebar = ({ activeView, onViewChange, onLogout, theme, onToggleTheme, isO
             </svg>
           </div>
           <div className="logo-text-group">
-            <span className="logo-sub">RPM</span>
             <span className="logo-main">ProactiveCare</span>
+            <span className="logo-sub">RPM</span>
           </div>
         </div>
       </div>

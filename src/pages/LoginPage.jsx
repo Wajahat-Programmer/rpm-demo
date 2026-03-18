@@ -33,8 +33,8 @@ const LoginPage = ({ onLogin }) => {
             </svg>
           </div>
           <div className="logo-text">
-            <span className="logo-sub">RPM</span>
             <span className="logo-main">ProactiveCare</span>
+            <span className="logo-sub">RPM</span>
           </div>
           <h1>System Authorization</h1>
           <p>Enter your clinician credentials to access the monitoring suite.</p>
