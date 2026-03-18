@@ -14,7 +14,7 @@ const CommunicationView = () => {
             <button className="tab">All Patients</button>
           </div>
           <div className="search-chats">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" className="search-icon">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--brand-color)" strokeWidth="2.5" className="search-icon">
               <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
             </svg>
             <input type="text" placeholder="Search conversations..." />
@@ -25,7 +25,7 @@ const CommunicationView = () => {
           </div>
           <div className="chat-list">
             <div className="chat-item active">
-              <div className="chat-avatar">2</div>
+              <div className="chat-avatar" style={{ background: 'var(--brand-gradient)', color: '#ffffff' }}>2</div>
               <div className="chat-info">
                 <div className="chat-header-row">
                   <span className="chat-name">25B3E02265</span>
@@ -39,8 +39,14 @@ const CommunicationView = () => {
 
         <main className="chat-main glass-card">
           <div className="empty-chat-state">
+            <div className="chat-icon-wrapper">
+               <svg viewBox="0 0 24 24" width="60" height="60" fill="none" stroke="var(--brand-color)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+               </svg>
+            </div>
             <h2>Select a conversation to start chatting</h2>
-            <p>Socket is connected and ready</p>
+            <p>Your secure real-time medical communication socket is connected and ready.</p>
+            <button className="btn-gradient" style={{ marginTop: '20px' }}>New Broadcast</button>
           </div>
         </main>
       </div>
@@ -50,17 +56,14 @@ const CommunicationView = () => {
           display: flex;
           flex-direction: column;
           gap: var(--space-md);
-          height: calc(100vh - var(--space-lg) * 2);
+          height: calc(100vh - 120px);
         }
 
         .page-header h1 {
-          font-size: 1.25rem;
-          color: white;
-          background: #5D9CEC;
-          padding: 8px 16px;
-          border-radius: 4px;
-          display: inline-block;
-          font-weight: 600;
+          font-size: 1.75rem;
+          color: var(--text-main);
+          font-weight: 800;
+          letter-spacing: -0.02em;
         }
 
         .communication-layout {
@@ -68,70 +71,84 @@ const CommunicationView = () => {
           gap: var(--space-md);
           flex: 1;
           height: 100%;
-        }
-
-        .chat-sidebar {
-          width: 350px;
-          display: flex;
-          flex-direction: column;
-          background: white;
-          padding: 0;
           overflow: hidden;
         }
 
+        .chat-sidebar {
+          width: 360px;
+          display: flex;
+          flex-direction: column;
+          padding: 0;
+          overflow: hidden;
+          border-radius: var(--radius-lg);
+          transition: none;
+        }
+        
+        .chat-sidebar:hover { transform: none; }
+
         .sidebar-tabs {
           display: flex;
-          gap: 4px;
+          gap: 6px;
           padding: var(--space-sm);
-          background: #f8f9fa;
+          background: rgba(255, 255, 255, 0.02);
           border-bottom: 1px solid var(--border-dim);
         }
 
         .tab {
-          padding: 6px 16px;
+          padding: 8px 16px;
           font-size: 0.8rem;
           font-weight: 700;
-          border-radius: 4px;
+          border-radius: var(--radius-sm);
           color: var(--text-dim);
+          transition: all 0.2s;
         }
 
+        .tab:hover { color: var(--text-main); background: rgba(255, 255, 255, 0.05); }
+
         .tab.active {
-          background: #001F3D;
-          color: white;
+          background: var(--brand-gradient);
+          color: #ffffff;
+          box-shadow: 0 4px 10px rgba(var(--brand-rgb), 0.2);
         }
 
         .search-chats {
           padding: var(--space-sm);
           display: flex;
           align-items: center;
-          gap: 8px;
-          background: white;
+          gap: 12px;
+          background: transparent;
           border-bottom: 1px solid var(--border-dim);
         }
 
         .search-chats input {
           border: 1px solid var(--border-dim);
-          border-radius: 4px;
-          padding: 6px 12px;
-          font-size: 0.8rem;
+          border-radius: var(--radius-sm);
+          padding: 8px 14px;
+          font-size: 0.85rem;
           width: 100%;
+          background: rgba(255, 255, 255, 0.03);
+          color: var(--text-main);
         }
 
+        .search-chats input:focus { border-color: var(--brand-color); outline: none; }
+
         .socket-status {
-          padding: 8px var(--space-sm);
-          font-size: 0.7rem;
+          padding: 10px var(--space-sm);
+          font-size: 0.75rem;
           color: var(--text-dim);
           display: flex;
           align-items: center;
-          gap: 6px;
+          gap: 8px;
           border-bottom: 1px solid var(--border-dim);
+          background: rgba(255, 255, 255, 0.01);
         }
 
         .socket-status .dot {
           width: 8px;
           height: 8px;
-          background: #48BB78;
+          background: var(--brand-color);
           border-radius: 50%;
+          box-shadow: 0 0 8px var(--brand-color);
         }
 
         .chat-list {
@@ -142,38 +159,48 @@ const CommunicationView = () => {
         .chat-item {
           display: flex;
           gap: var(--space-sm);
-          padding: var(--space-md) var(--space-sm);
+          padding: var(--space-md);
           border-bottom: 1px solid var(--border-dim);
           cursor: pointer;
           transition: background 0.2s;
         }
 
         .chat-item:hover {
-          background: #f8f9fa;
+          background: rgba(255, 255, 255, 0.03);
         }
 
         .chat-item.active {
-          background: rgba(0, 102, 255, 0.05);
+          background: rgba(var(--brand-rgb), 0.05);
+          position: relative;
+        }
+
+        .chat-item.active::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          width: 3px;
+          background: var(--brand-gradient);
         }
 
         .chat-avatar {
-          width: 36px;
-          height: 36px;
-          background: #003366;
-          color: white;
+          width: 44px;
+          height: 44px;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
           font-weight: 700;
           flex-shrink: 0;
+          box-shadow: 0 4px 10px rgba(var(--brand-rgb), 0.2);
         }
 
         .chat-info {
           flex: 1;
           display: flex;
           flex-direction: column;
-          gap: 4px;
+          gap: 6px;
           overflow: hidden;
         }
 
@@ -185,8 +212,8 @@ const CommunicationView = () => {
 
         .chat-name {
           font-weight: 700;
-          font-size: 0.85rem;
-          color: #1A365D;
+          font-size: 0.9rem;
+          color: var(--text-main);
         }
 
         .chat-time {
@@ -195,7 +222,7 @@ const CommunicationView = () => {
         }
 
         .chat-preview {
-          font-size: 0.8rem;
+          font-size: 0.85rem;
           color: var(--text-dim);
           white-space: nowrap;
           overflow: hidden;
@@ -204,38 +231,53 @@ const CommunicationView = () => {
 
         .chat-main {
           flex: 1;
-          background: white;
           display: flex;
           align-items: center;
           justify-content: center;
           text-align: center;
+          border-radius: var(--radius-lg);
+          transition: none;
         }
+        
+        .chat-main:hover { transform: none; }
+
+        .chat-icon-wrapper { margin-bottom: var(--space-md); opacity: 0.8; }
 
         .empty-chat-state h2 {
-          font-size: 1.5rem;
-          color: #1A365D;
+          font-size: 1.75rem;
+          color: var(--text-main);
           margin-bottom: 8px;
         }
 
         .empty-chat-state p {
           color: var(--text-dim);
-          font-size: 0.9rem;
+          font-size: 1rem;
+          max-width: 320px;
+          margin: 0 auto;
+          line-height: 1.6;
         }
 
-        [data-theme='dark'] .chat-sidebar, 
-        [data-theme='dark'] .chat-main,
-        [data-theme='dark'] .sidebar-tabs,
-        [data-theme='dark'] .search-chats {
-          background: var(--bg-secondary);
-        }
-        
-        [data-theme='dark'] .chat-name,
-        [data-theme='dark'] .empty-chat-state h2 {
-          color: var(--text-main);
-        }
+        @media (max-width: 768px) {
+          .communication-view-page {
+            height: auto;
+          }
 
-        [data-theme='dark'] .chat-item:hover {
-          background: rgba(255, 255, 255, 0.03);
+          .communication-layout {
+            flex-direction: column;
+          }
+
+          .chat-sidebar {
+            width: 100%;
+            max-height: 300px;
+          }
+
+          .chat-main {
+            min-height: 300px;
+          }
+
+          .empty-chat-state h2 {
+            font-size: 1.25rem;
+          }
         }
       `}</style>
     </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Sidebar = ({ activeView, onViewChange, onLogout, theme, onToggleTheme }) => {
+const Sidebar = ({ activeView, onViewChange, onLogout, theme, onToggleTheme, isOpen, onClose }) => {
   const menuItems = [
     { name: 'Dashboard', id: 'dashboard', icon: 'M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z' },
     { name: 'Patients', id: 'patients', icon: 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2' },
@@ -11,66 +11,85 @@ const Sidebar = ({ activeView, onViewChange, onLogout, theme, onToggleTheme }) =
   ];
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar glass-panel ${isOpen ? 'sidebar-open' : ''}`}>
       <div className="sidebar-header">
         <div className="logo-group">
-          <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#003366" strokeWidth="2" style={{ marginRight: '8px' }}>
-            <path d="M20.42 4.58a5.44 5.44 0 0 0-7.71 0l-.71.71-.71-.71a5.44 5.44 0 0 0-7.71 7.71l.71.71L12 21l7.71-7.71.71-.71a5.44 5.44 0 0 0 0-7.71z" />
-          </svg>
+          <div className="logo-icon-wrapper">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2.5">
+               <path d="M20.42 4.58a5.44 5.44 0 0 0-7.71 0l-.71.71-.71-.71a5.44 5.44 0 0 0-7.71 7.71l.71.71L12 21l7.71-7.71.71-.71a5.44 5.44 0 0 0 0-7.71z" />
+            </svg>
+          </div>
           <div className="logo-text-group">
             <span className="logo-sub">RPM</span>
-            <span className="logo-main">Remote Patient Monitoring</span>
+            <span className="logo-main">MediConnect Portal</span>
           </div>
         </div>
       </div>
 
       <nav className="sidebar-nav">
         {menuItems.map((item) => (
-          <button
-            key={item.id}
+          <button 
+            key={item.id} 
             className={`nav-item ${activeView === item.id || (activeView === 'patient-profile' && item.id === 'patients') ? 'active' : ''}`}
             onClick={() => onViewChange(item.id)}
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="nav-icon">
-              {item.id === 'patients' ? <><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></> : <path d={item.icon} />}
-            </svg>
+            <div className="nav-icon-wrapper">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="nav-icon">
+                {item.id === 'patients' ? <><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></> : <path d={item.icon} />}
+              </svg>
+            </div>
             <span className="nav-label">{item.name}</span>
           </button>
         ))}
       </nav>
 
       <div className="sidebar-footer">
-        <div className="user-profile-bar">
+        <div className="user-profile-bar glass-card">
           <div className="u-avatar">D</div>
           <div className="u-details">
             <span className="u-email">abcde@gmail.com</span>
             <span className="u-role">drwill123</span>
           </div>
         </div>
-        <button className="logout-link" onClick={onLogout}>Logout</button>
+        <button className="logout-link" onClick={onLogout}>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '8px' }}><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Logout Session
+        </button>
       </div>
 
       <style jsx="true">{`
         .sidebar {
           width: 280px;
           height: 100vh;
-          background: white;
           border-right: 1px solid var(--border-dim);
           display: flex;
           flex-direction: column;
           position: sticky;
           top: 0;
           z-index: 100;
+          padding: 0;
         }
 
         .sidebar-header {
-          padding: 24px var(--space-md);
-          border-bottom: 1px solid var(--border-dim);
+          padding: 32px var(--space-md);
         }
 
         .logo-group {
           display: flex;
           align-items: center;
+          gap: 12px;
+        }
+
+        .logo-icon-wrapper {
+          width: 44px;
+          height: 44px;
+          background: var(--brand-gradient);
+          color: #ffffff;
+          border-radius: var(--radius-md);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 8px 16px rgba(var(--brand-rgb), 0.2);
         }
 
         .logo-text-group {
@@ -79,16 +98,17 @@ const Sidebar = ({ activeView, onViewChange, onLogout, theme, onToggleTheme }) =
         }
 
         .logo-sub {
-          font-size: 0.65rem;
-          font-weight: 700;
-          color: #1A365D;
+          font-size: 0.75rem;
+          font-weight: 800;
+          color: var(--brand-color);
           text-transform: uppercase;
+          letter-spacing: 0.1em;
         }
 
         .logo-main {
-          font-size: 0.75rem;
+          font-size: 0.95rem;
           font-weight: 700;
-          color: #1A365D;
+          color: var(--text-main);
         }
 
         .sidebar-nav {
@@ -96,66 +116,80 @@ const Sidebar = ({ activeView, onViewChange, onLogout, theme, onToggleTheme }) =
           flex-direction: column;
           padding: var(--space-sm);
           flex: 1;
+          gap: 6px;
         }
 
         .nav-item {
           display: flex;
           align-items: center;
-          gap: 12px;
-          padding: 12px 16px;
-          border-radius: 4px;
-          color: #4A5568;
+          gap: 16px;
+          padding: 12px 14px;
+          border-radius: var(--radius-md);
+          color: var(--text-dim);
           text-decoration: none;
-          transition: all 0.2s;
+          transition: all var(--transition-fast);
           width: 100%;
           text-align: left;
-          margin-bottom: 4px;
         }
 
         .nav-item:hover {
-          background: #f8f9fa;
-          color: #003366;
+          background: rgba(255, 255, 255, 0.04);
+          color: var(--brand-color);
+          transform: translateX(4px);
         }
 
         .nav-item.active {
-          background: #001F3D;
-          color: white;
+          background: var(--brand-gradient);
+          color: #ffffff;
+          box-shadow: 0 4px 15px rgba(var(--brand-rgb), 0.2);
         }
 
-        .nav-icon {
-          width: 20px;
-          height: 20px;
+        .nav-icon-wrapper {
+          width: 24px;
+          height: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
+
+        .nav-icon { width: 22px; height: 22px; }
 
         .nav-label {
-          font-weight: 600;
-          font-size: 0.85rem;
+          font-weight: 700;
+          font-size: 0.9rem;
         }
 
         .sidebar-footer {
           padding: var(--space-md);
-          border-top: 1px solid var(--border-dim);
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-sm);
         }
 
         .user-profile-bar {
           display: flex;
           align-items: center;
-          gap: 12px;
-          margin-bottom: 16px;
+          gap: 14px;
+          padding: 12px;
+          border-radius: var(--radius-md);
+          transition: none;
         }
+        
+        .user-profile-bar:hover { transform: none; }
 
         .u-avatar {
-          width: 32px;
-          height: 32px;
-          background: #4A5568;
-          color: white;
+          width: 38px;
+          height: 38px;
+          background: var(--bg-tertiary);
+          color: var(--brand-color);
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-weight: 700;
-          font-size: 0.8rem;
+          font-weight: 800;
+          font-size: 1rem;
           flex-shrink: 0;
+          border: 1px solid var(--border-dim);
         }
 
         .u-details {
@@ -165,47 +199,59 @@ const Sidebar = ({ activeView, onViewChange, onLogout, theme, onToggleTheme }) =
         }
 
         .u-email {
-          font-size: 0.75rem;
+          font-size: 0.8rem;
           font-weight: 700;
-          color: #1A365D;
+          color: var(--text-main);
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
         }
 
         .u-role {
-          font-size: 0.7rem;
-          color: #718096;
+          font-size: 0.75rem;
+          color: var(--text-dim);
         }
 
         .logout-link {
           font-size: 0.85rem;
-          color: #718096;
-          padding: 8px 16px;
+          color: var(--danger);
+          padding: 12px;
           width: 100%;
-          text-align: center;
+          text-align: left;
+          opacity: 0.7;
+          display: flex;
+          align-items: center;
+          font-weight: 700;
         }
 
         .logout-link:hover {
-          text-decoration: underline;
-          color: #1A365D;
+          opacity: 1;
+          color: var(--danger);
+          background: rgba(239, 68, 68, 0.05);
+          border-radius: var(--radius-sm);
         }
 
-        [data-theme='dark'] .sidebar, [data-theme='dark'] .sidebar-header, [data-theme='dark'] .sidebar-footer {
-          background: var(--bg-secondary);
-        }
-        
-        [data-theme='dark'] .logo-sub, [data-theme='dark'] .logo-main, [data-theme='dark'] .u-email {
-          color: var(--text-main);
+        [data-theme='light'] .nav-item:hover {
+          background: rgba(var(--brand-rgb), 0.05);
         }
 
-        [data-theme='dark'] .nav-item {
-          color: var(--text-dim);
-        }
+        /* ===== MOBILE SIDEBAR ===== */
+        @media (max-width: 768px) {
+          .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 280px;
+            z-index: 200;
+            transform: translateX(-100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--bg-secondary);
+          }
 
-        [data-theme='dark'] .nav-item:hover {
-          background: rgba(255, 255, 255, 0.05);
-          color: var(--text-main);
+          .sidebar.sidebar-open {
+            transform: translateX(0);
+          }
         }
       `}</style>
     </aside>

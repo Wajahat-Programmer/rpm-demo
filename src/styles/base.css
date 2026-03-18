@@ -1,27 +1,32 @@
 :root {
-  /* Color Palette - Medical/Professional */
-  --primary: #0066FF;
-  --primary-hover: #0052cc;
-  --secondary: #10B981;
-  --accent: #8B5CF6;
-  --danger: #EF4444;
-  --warning: #F59E0B;
-  --info: #3B82F6;
+  /* Brand Color - New Blue/Cyan Palette */
+  --brand-color: #0070c0;
+  --brand-rgb: 0, 112, 192;
+  --brand-gradient: linear-gradient(135deg, #0056b3 0%, #00ace6 100%);
+  --brand-gradient-hover: linear-gradient(135deg, #004494 0%, #0099cc 100%);
+  --primary: var(--brand-color);
+  --primary-hover: #0088cc;
+  
+  --secondary: #00b4d8;
+  --accent: #48cae4;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --info: #0077b6;
 
   /* Neutrals - Dark Mode focus */
   --bg-main: #0A0C10;
-  --bg-secondary: #161B22;
-  --bg-tertiary: #21262D;
-  --text-main: #F0F6FC;
-  --text-dim: #8B949E;
+  --bg-secondary: #0d1117;
+  --bg-tertiary: #161b22;
+  --text-main: #f0f6fc;
+  --text-dim: #8b949e;
   --border-dim: rgba(240, 246, 252, 0.1);
-  --border-focus: #1f6feb;
+  --border-focus: var(--brand-color);
 
-  /* Glassmorphism */
-  --glass-bg: rgba(22, 27, 34, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  --glass-blur: blur(12px);
+  /* Glassmorphism Refined */
+  --glass-bg: rgba(13, 17, 23, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  --glass-blur: blur(16px);
 
   /* Spacing */
   --space-xs: 0.5rem;
@@ -30,28 +35,29 @@
   --space-lg: 2rem;
   --space-xl: 3rem;
 
-  /* Radius */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
+  /* Radius - Enhanced */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
   --radius-full: 9999px;
 
   /* Transitions */
-  --transition-fast: 0.2s ease;
-  --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Light Mode Overrides */
 [data-theme='light'] {
-  --bg-main: #F8FAFC;
-  --bg-secondary: #FFFFFF;
-  --bg-tertiary: #E2E8F0;
-  --text-main: #0F172A;
-  --text-dim: #64748B;
-  --border-dim: rgba(0, 0, 0, 0.08);
-  --glass-bg: rgba(255, 255, 255, 0.8);
-  --glass-border: rgba(0, 0, 0, 0.05);
-  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+  --bg-main: #f0f9ff;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #e0f2fe;
+  --text-main: #075985;
+  --text-dim: #334155;
+  --border-dim: rgba(14, 165, 233, 0.15);
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(14, 165, 233, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(7, 89, 133, 0.08);
 }
 
 * {
@@ -91,17 +97,48 @@ button {
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
   box-shadow: var(--glass-shadow);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  border-color: rgba(var(--brand-color), 0.3);
 }
 
 .glass-panel {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
+}
+
+/* Button Refinement */
+.btn-gradient {
+  background: var(--brand-gradient);
+  color: #ffffff !important; /* White text for better contrast with blue/cyan */
+  border: none;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  padding: 10px 24px;
+  transition: all var(--transition-fast);
+  box-shadow: 0 4px 15px rgba(0, 112, 192, 0.25);
+}
+
+.btn-gradient:hover {
+  background: var(--brand-gradient-hover);
+  transform: scale(1.03);
+  box-shadow: 0 8px 25px rgba(0, 112, 192, 0.4);
+  color: #ffffff !important;
+}
+
+.btn-gradient:active {
+  transform: scale(0.97);
 }
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
 }
 

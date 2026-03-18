@@ -16,14 +16,14 @@ const PatientProfile = ({ patientId, onBack }) => {
 
   const vitals = [
     { label: 'Heart Rate', value: '142', unit: 'bpm', trend: 15, icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z', color: '239, 68, 68' },
-    { label: 'SpO2', value: '94', unit: '%', trend: -2, icon: 'M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.022.547l-2.387 2.387a2 2 0 102.828 2.828l.647-.647a2 2 0 011.022-.547l2.387-.477a6 6 0 003.86-.517l.318-.158a6 6 0 013.86-.517l1.931.386a2 2 0 001.022.547l.647.647a2 2 0 102.828-2.828l-2.387-2.387z', color: '59, 130, 246' },
+    { label: 'SpO2', value: '94', unit: '%', trend: -2, icon: 'M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.022.547l-2.387 2.387a2 2 0 102.828 2.828l.647-.647a2 2 0 011.022-.547l2.387-.477a6 6 0 003.86-.517l.318-.158a6 6 0 013.86-.517l1.931.386a2 2 0 001.022.547l.647.647a2 2 0 102.828-2.828l-2.387-2.387z', color: 'var(--brand-rgb)' },
   ];
 
   return (
     <div className="patient-profile animate-fade">
       <header className="profile-header">
         <button className="back-btn" onClick={onBack}>
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5">
             <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
           Back to Dashboard
@@ -38,8 +38,8 @@ const PatientProfile = ({ patientId, onBack }) => {
             </div>
           </div>
           <div className="header-actions">
-            <button className="btn btn-secondary">Message Patient</button>
-            <button className="btn btn-primary">Adjust Thresholds</button>
+            <button className="btn-secondary">Message Patient</button>
+            <button className="btn-gradient">Adjust Thresholds</button>
           </div>
         </div>
       </header>
@@ -61,7 +61,9 @@ const PatientProfile = ({ patientId, onBack }) => {
               </div>
               <div className="info-item">
                 <label>Latest Insight</label>
-                <p>Abnormal heart rate spikes detected during late-night hours. Potential adjustment in beta-blocker dosage recommended.</p>
+                <div className="insight-pill glass-card">
+                   <p>Abnormal heart rate spikes detected during late-night hours. Potential adjustment in beta-blocker dosage recommended.</p>
+                </div>
               </div>
             </div>
           </section>
@@ -73,7 +75,7 @@ const PatientProfile = ({ patientId, onBack }) => {
 
         <div className="charts-column">
           <VitalsChart label="Heart Rate" color="239, 68, 68" />
-          <VitalsChart label="Blood Oxygen (SpO2)" color="59, 130, 246" />
+          <VitalsChart label="Blood Oxygen (SpO2)" color="var(--brand-rgb)" />
         </div>
       </div>
 
@@ -87,14 +89,17 @@ const PatientProfile = ({ patientId, onBack }) => {
         .back-btn {
           display: flex;
           align-items: center;
-          gap: 8px;
+          gap: 10px;
           color: var(--text-dim);
-          font-size: 0.9rem;
-          margin-bottom: var(--space-md);
+          font-size: 0.95rem;
+          font-weight: 700;
+          margin-bottom: var(--space-sm);
+          transition: all 0.2s;
         }
 
         .back-btn:hover {
-          color: var(--text-main);
+          color: var(--brand-color);
+          transform: translateX(-4px);
         }
 
         .header-main {
@@ -104,85 +109,141 @@ const PatientProfile = ({ patientId, onBack }) => {
         }
 
         .patient-meta h1 {
-          font-size: 2.25rem;
+          font-size: 2.5rem;
           margin-bottom: var(--space-xs);
+          color: var(--text-main);
+          font-weight: 800;
         }
 
         .meta-chips {
           display: flex;
-          gap: 8px;
+          gap: 10px;
         }
 
         .chip {
-          padding: 4px 12px;
-          background: var(--bg-tertiary);
+          padding: 6px 14px;
+          background: rgba(255, 255, 255, 0.05);
           border-radius: var(--radius-full);
-          font-size: 0.8rem;
+          font-size: 0.85rem;
+          font-weight: 700;
           color: var(--text-dim);
+          border: 1px solid var(--border-dim);
         }
 
         .chip-risk {
-          padding: 4px 12px;
+          padding: 6px 14px;
           border-radius: var(--radius-full);
-          font-size: 0.8rem;
-          font-weight: 600;
+          font-size: 0.85rem;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
         }
 
-        .chip-risk.high { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        .chip-risk.high { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.2); }
+
+        .header-actions {
+          display: flex;
+          gap: var(--space-sm);
+        }
+
+        .btn-secondary {
+          background: var(--bg-secondary);
+          color: var(--text-main);
+          border: 1px solid var(--border-dim);
+          padding: 10px 24px;
+          border-radius: var(--radius-sm);
+          font-weight: 600;
+          transition: all var(--transition-fast);
+        }
+
+        .btn-secondary:hover {
+          background: var(--bg-tertiary);
+          border-color: var(--brand-color);
+          transform: translateY(-2px);
+        }
 
         .profile-content {
           display: grid;
-          grid-template-columns: 1fr 1.5fr;
-          gap: var(--space-md);
+          grid-template-columns: 1fr 1.6fr;
+          gap: var(--space-lg);
         }
 
         .detail-column {
           display: flex;
           flex-direction: column;
-          gap: var(--space-md);
+          gap: var(--space-lg);
         }
 
         .patient-details {
-          padding: var(--space-md);
+          padding: var(--space-lg);
+          border-radius: var(--radius-lg);
+          transition: none;
         }
+        
+        .patient-details:hover { transform: none; }
 
         .patient-details h3 {
-          margin-bottom: var(--space-md);
+          margin-bottom: var(--space-lg);
           color: var(--text-main);
+          font-weight: 800;
+          font-size: 1.25rem;
+          letter-spacing: -0.01em;
         }
 
         .info-grid {
           display: flex;
           flex-direction: column;
-          gap: var(--space-md);
+          gap: var(--space-lg);
         }
 
         .info-item label {
           display: block;
-          font-size: 0.75rem;
+          font-size: 0.8rem;
           text-transform: uppercase;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.08em;
           color: var(--text-dim);
-          margin-bottom: 4px;
+          margin-bottom: 8px;
+          font-weight: 700;
         }
 
         .info-item span {
-          font-weight: 500;
+          font-weight: 700;
+          font-size: 1.1rem;
+          color: var(--text-main);
         }
 
         .med-tags {
           display: flex;
           flex-wrap: wrap;
-          gap: 6px;
-          margin-top: 4px;
+          gap: 8px;
+          margin-top: 6px;
         }
 
         .med-tags span {
-          padding: 4px 10px;
+          padding: 6px 12px;
           background: rgba(139, 92, 246, 0.1);
           color: var(--accent);
-          border-radius: 4px;
-          font-size: 0.75rem;
+          border-radius: var(--radius-sm);
+          font-size: 0.8rem;
+          font-weight: 700;
+          border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .insight-pill {
+          padding: var(--space-md);
+          border-radius: var(--radius-md);
+          background: rgba(var(--brand-color), 0.03);
+          border-color: rgba(var(--brand-color), 0.1);
+          transition: none;
+        }
+        
+        .insight-pill:hover { transform: none; }
+
+        .insight-pill p {
+          color: var(--text-main);
+          font-size: 0.95rem;
+          line-height: 1.6;
+          opacity: 0.9;
         }
 
         .vitals-summary-grid {
@@ -194,22 +255,37 @@ const PatientProfile = ({ patientId, onBack }) => {
         .charts-column {
           display: flex;
           flex-direction: column;
-          gap: var(--space-md);
+          gap: var(--space-lg);
         }
 
-        .btn {
-          padding: 10px 20px;
-          border-radius: var(--radius-md);
-          font-weight: 600;
-          font-size: 0.9rem;
-          transition: var(--transition-fast);
-        }
-
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-secondary { background: var(--bg-tertiary); color: var(--text-main); border: 1px solid var(--border-dim); }
-
-        @media (max-width: 1024px) {
+        @media (max-width: 1280px) {
           .profile-content { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+          .header-main {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: var(--space-sm);
+          }
+
+          .header-actions {
+            width: 100%;
+          }
+
+          .header-actions button {
+            flex: 1;
+            font-size: 0.85rem;
+            padding: 10px 14px;
+          }
+
+          .patient-meta h1 {
+            font-size: 1.75rem;
+          }
+
+          .vitals-summary-grid {
+            grid-template-columns: 1fr;
+          }
         }
       `}</style>
     </div>

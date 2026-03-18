@@ -19,19 +19,19 @@ const DeviceManagementView = () => {
           {users.map((user) => (
             <div key={user.id} className="user-row">
               <div className="user-info">
-                <div className="user-avatar">{user.id === 1 ? 'T' : '2'}</div>
+                <div className="user-avatar" style={{ background: 'var(--brand-gradient)', color: '#ffffff' }}>{user.id === 1 ? 'T' : '2'}</div>
                 <div className="user-meta">
                   <span className="u-name">{user.name}</span>
                   <span className="u-username">{user.username}</span>
                 </div>
               </div>
-              <button className="device-btn">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '8px' }}>
+              <button className="btn-gradient device-btn">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ marginRight: '10px' }}>
                   <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
                   <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
                 </svg>
-                Show devices
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginLeft: '8px' }}>
+                Show connected devices
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ marginLeft: '10px' }}>
                   <path d="m6 9 6 6 6-6"/>
                 </svg>
               </button>
@@ -44,30 +44,32 @@ const DeviceManagementView = () => {
         .device-view-page {
           display: flex;
           flex-direction: column;
-          gap: var(--space-md);
+          gap: var(--space-lg);
         }
 
         .page-header h1 {
-          font-size: 1.25rem;
-          color: white;
-          background: #5D9CEC;
-          padding: 8px 16px;
-          border-radius: 4px;
-          display: inline-block;
-          font-weight: 600;
+          font-size: 1.75rem;
+          color: var(--text-main);
+          font-weight: 800;
+          letter-spacing: -0.02em;
         }
 
         .content-card {
-           background: white;
            padding: 0;
+           border-radius: var(--radius-lg);
+           overflow: hidden;
+           transition: none;
         }
+        
+        .content-card:hover { transform: none; }
 
         .section-title {
-          padding: var(--space-md);
-          font-size: 1rem;
+          padding: var(--space-md) var(--space-lg);
+          font-size: 1.1rem;
           font-weight: 700;
-          color: #1A365D;
+          color: var(--text-main);
           border-bottom: 1px solid var(--border-dim);
+          background: rgba(255, 255, 255, 0.02);
         }
 
         .user-list {
@@ -79,8 +81,13 @@ const DeviceManagementView = () => {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: var(--space-md);
+          padding: var(--space-md) var(--space-lg);
           border-bottom: 1px solid var(--border-dim);
+          transition: background 0.2s;
+        }
+
+        .user-row:hover {
+          background: rgba(255, 255, 255, 0.02);
         }
 
         .user-row:last-child {
@@ -90,55 +97,41 @@ const DeviceManagementView = () => {
         .user-info {
           display: flex;
           align-items: center;
-          gap: var(--space-sm);
+          gap: var(--space-md);
         }
 
         .user-avatar {
-          width: 40px;
-          height: 40px;
-          background: #003366;
-          color: white;
+          width: 44px;
+          height: 44px;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
           font-weight: 700;
+          box-shadow: 0 4px 10px rgba(var(--brand-rgb), 0.2);
         }
 
         .user-meta {
           display: flex;
           flex-direction: column;
+          gap: 2px;
         }
 
         .u-name {
           font-weight: 700;
-          font-size: 0.9rem;
-          color: #1A365D;
+          font-size: 1rem;
+          color: var(--text-main);
         }
 
         .u-username {
-          font-size: 0.8rem;
+          font-size: 0.85rem;
           color: var(--text-dim);
         }
 
         .device-btn {
-          background: #001F3D;
-          color: white;
-          padding: 8px 16px;
-          border-radius: 4px;
-          font-size: 0.85rem;
-          font-weight: 600;
-          display: flex;
-          align-items: center;
-          transition: background 0.2s;
+          padding: 10px 20px !important;
+          font-size: 0.85rem !important;
         }
-
-        .device-btn:hover {
-          background: #003366;
-        }
-
-        [data-theme='dark'] .content-card { background: var(--bg-secondary); }
-        [data-theme='dark'] .section-title, [data-theme='dark'] .u-name { color: var(--text-main); }
       `}</style>
     </div>
   );
