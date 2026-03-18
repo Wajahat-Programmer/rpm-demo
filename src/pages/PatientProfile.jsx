@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import VitalsChart from '../components/VitalsChart';
 import StatCard from '../components/StatCard';
 
-const PatientProfile = ({ patientId, onBack }) => {
+const PatientProfile = ({ patientId, onBack, onNavigate }) => {
+  const [showThresholdsModal, setShowThresholdsModal] = useState(false);
+  
   // Mock data for the selected patient
   const patient = {
     name: 'James Miller',
@@ -38,8 +41,8 @@ const PatientProfile = ({ patientId, onBack }) => {
             </div>
           </div>
           <div className="header-actions">
-            <button className="btn-secondary">Message Patient</button>
-            <button className="btn-gradient">Adjust Thresholds</button>
+            <button className="btn-secondary" onClick={() => onNavigate('communication', patientId || '1')}>Message Patient</button>
+            <button className="btn-gradient" onClick={() => setShowThresholdsModal(true)}>Adjust Thresholds</button>
           </div>
         </div>
       </header>
@@ -78,6 +81,56 @@ const PatientProfile = ({ patientId, onBack }) => {
           <VitalsChart label="Blood Oxygen (SpO2)" color="var(--brand-rgb)" />
         </div>
       </div>
+
+      {showThresholdsModal && createPortal(
+        <div className="modal-backdrop" onClick={() => setShowThresholdsModal(false)}>
+          <div className="modal-content glass-card animate-fade" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Adjust Thresholds: {patient.name}</h2>
+              <button className="close-btn" onClick={() => setShowThresholdsModal(false)}>✕</button>
+            </div>
+            <div className="modal-body" style={{ maxHeight: '70vh', overflowY: 'auto' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <div style={{ padding: '16px', background: 'rgba(255, 255, 255, 0.05)', borderRadius: 'var(--radius-md)' }}>
+                  <h3 style={{ fontSize: '1rem', color: 'var(--text-main)', marginBottom: '12px' }}>Heart Rate (bpm)</h3>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                    <div className="form-group">
+                      <label>High Alert</label>
+                      <input type="number" className="modal-input" defaultValue="100" />
+                    </div>
+                    <div className="form-group">
+                      <label>Low Alert</label>
+                      <input type="number" className="modal-input" defaultValue="60" />
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ padding: '16px', background: 'rgba(255, 255, 255, 0.05)', borderRadius: 'var(--radius-md)' }}>
+                  <h3 style={{ fontSize: '1rem', color: 'var(--text-main)', marginBottom: '12px' }}>Blood Oxygen SpO2 (%)</h3>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                    <div className="form-group">
+                      <label>High Alert (Optional)</label>
+                      <input type="number" className="modal-input" defaultValue="" placeholder="None" />
+                    </div>
+                    <div className="form-group">
+                      <label>Low Alert</label>
+                      <input type="number" className="modal-input" defaultValue="92" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button className="btn-secondary" onClick={() => setShowThresholdsModal(false)}>Cancel</button>
+              <button className="btn-gradient" onClick={() => {
+                alert('Thresholds saved for ' + patient.name);
+                setShowThresholdsModal(false);
+              }}>Save Parameters</button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
 
       <style jsx="true">{`
         .patient-profile {

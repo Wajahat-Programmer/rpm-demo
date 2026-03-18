@@ -7,6 +7,7 @@ import PatientsView from './pages/PatientsView'
 import AlertsView from './pages/AlertsView'
 import CommunicationView from './pages/CommunicationView'
 import DeviceManagementView from './pages/DeviceManagementView'
+import SettingsView from './pages/SettingsView'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -14,6 +15,7 @@ function App() {
   const [selectedPatientId, setSelectedPatientId] = useState(null);
   const [theme, setTheme] = useState('dark');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activeChatId, setActiveChatId] = useState(null);
 
   // Load theme and auth from local storage for demo persistence
   useEffect(() => {
@@ -44,13 +46,18 @@ function App() {
   };
 
   const handlePatientClick = (id) => {
-    setSelectedPatientId(id);
-    setCurrentView('patient-profile');
+    handleNavigate('patient-profile', { patientId: id });
   };
 
   const handleBackToDashboard = () => {
-    setCurrentView('dashboard');
-    setSelectedPatientId(null);
+    handleNavigate('dashboard');
+  };
+
+  const handleNavigate = (view, context = {}) => {
+    setCurrentView(view);
+    if (context.patientId) setSelectedPatientId(context.patientId);
+    if (context.chatId) setActiveChatId(context.chatId);
+    setSidebarOpen(false);
   };
 
   if (!isAuthenticated) {
@@ -60,35 +67,19 @@ function App() {
   const renderView = () => {
     switch (currentView) {
       case 'dashboard':
-        return <Dashboard onPatientClick={handlePatientClick} />;
+        return <Dashboard onPatientClick={handlePatientClick} onNavigate={handleNavigate} />;
       case 'patient-profile':
         return <PatientProfile patientId={selectedPatientId} onBack={handleBackToDashboard} />;
       case 'patients':
-        return <PatientsView onPatientClick={handlePatientClick} />;
+        return <PatientsView onPatientClick={handlePatientClick} onNavigate={handleNavigate} />;
       case 'alerts':
         return <AlertsView />;
       case 'communication':
-        return <CommunicationView />;
+        return <CommunicationView activeChatId={activeChatId} onNavigate={handleNavigate} />;
       case 'devices':
         return <DeviceManagementView />;
       case 'settings':
-        return (
-          <div className="animate-fade">
-            <header className="page-header">
-              <h1>System Settings</h1>
-            </header>
-            <div className="glass-card" style={{ padding: '8rem', marginTop: '2rem', textAlign: 'center', borderRadius: 'var(--radius-xl)' }}>
-              <div style={{ marginBottom: '20px', opacity: 0.5 }}>
-                <svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="var(--brand-color)" strokeWidth="1.5">
-                   <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-                </svg>
-              </div>
-              <h2 style={{ color: 'var(--text-main)', fontSize: '2rem', marginBottom: '12px' }}>Portal Configuration</h2>
-              <p style={{ color: 'var(--text-dim)', fontSize: '1.1rem' }}>HIPAA compliance logs, security keys, and integration settings.</p>
-              <button className="btn-gradient" style={{ marginTop: '30px' }}>Export Clinical Logs</button>
-            </div>
-          </div>
-        );
+        return <SettingsView />;
       default:
         return <Dashboard onPatientClick={handlePatientClick} />;
     }
@@ -99,7 +90,7 @@ function App() {
       {sidebarOpen && <div className="sidebar-backdrop" onClick={() => setSidebarOpen(false)} />}
       <Sidebar 
         activeView={currentView} 
-        onViewChange={(view) => { setCurrentView(view); setSidebarOpen(false); }} 
+        onViewChange={(view) => handleNavigate(view)} 
         onLogout={handleLogout}
         theme={theme}
         onToggleTheme={toggleTheme}

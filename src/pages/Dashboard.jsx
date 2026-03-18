@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 
 const Dashboard = ({ onPatientClick }) => {
   const stats = [
@@ -13,6 +14,15 @@ const Dashboard = ({ onPatientClick }) => {
     { id: 2, name: '25B3E02265', username: '@Robert', email: 'ghi@gmail.com', phone: '+1626337696', startDate: 'Dec 9, 2025', lastLogin: 'Never logged in' },
   ];
 
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showModal, setShowModal] = useState(false);
+
+  const filteredPatients = patients.filter(p => 
+    p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    p.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    p.username.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="dashboard-page animate-fade">
       <header className="dashboard-header">
@@ -22,7 +32,7 @@ const Dashboard = ({ onPatientClick }) => {
         </div>
         <div className="header-actions">
           <button className="btn-secondary">Download Report</button>
-          <button className="btn-gradient">+ New Patient</button>
+          <button className="btn-gradient" onClick={() => setShowModal(true)}>+ New Patient</button>
         </div>
       </header>
 
@@ -57,7 +67,12 @@ const Dashboard = ({ onPatientClick }) => {
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" className="search-icon">
               <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
             </svg>
-            <input type="text" placeholder="Search patients..." />
+            <input 
+              type="text" 
+              placeholder="Search patients..." 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
             <button className="search-btn btn-gradient">Search</button>
           </div>
         </div>
@@ -74,7 +89,7 @@ const Dashboard = ({ onPatientClick }) => {
               </tr>
             </thead>
             <tbody>
-              {patients.map((p) => (
+              {filteredPatients.length > 0 ? filteredPatients.map((p) => (
                 <tr key={p.id} className="clickable-row" onClick={() => onPatientClick(p.id)}>
                   <td>
                     <div className="patient-cell">
@@ -110,7 +125,11 @@ const Dashboard = ({ onPatientClick }) => {
                     </button>
                   </td>
                 </tr>
-              ))}
+              )) : (
+                <tr>
+                  <td colSpan="5" style={{ textAlign: 'center', padding: '30px' }}>No patients found matching "{searchTerm}"</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -431,8 +450,45 @@ const Dashboard = ({ onPatientClick }) => {
           .stats-grid {
             grid-template-columns: 1fr;
           }
-        }
       `}</style>
+      
+      {showModal && createPortal(
+        <div className="modal-backdrop" onClick={() => setShowModal(false)}>
+          <div className="modal-content glass-card animate-fade" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Add New Patient</h2>
+              <button className="close-btn" onClick={() => setShowModal(false)}>✕</button>
+            </div>
+            <div className="modal-body">
+              <div className="form-group">
+                <label>Full Name</label>
+                <input type="text" placeholder="e.g. Jane Doe" className="modal-input" />
+              </div>
+              <div className="form-group">
+                <label>Email Address</label>
+                <input type="email" placeholder="jane@example.com" className="modal-input" />
+              </div>
+              <div className="form-group">
+                <label>Primary Device</label>
+                <select className="modal-input">
+                  <option>Select device type...</option>
+                  <option>Blood Pressure Monitor</option>
+                  <option>Pulse Oximeter</option>
+                  <option>Weight Scale</option>
+                </select>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button className="btn-secondary" onClick={() => setShowModal(false)}>Cancel</button>
+              <button className="btn-gradient" onClick={() => {
+                alert('Patient invited successfully! (Demo Data)');
+                setShowModal(false);
+              }}>Send Invite</button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 };

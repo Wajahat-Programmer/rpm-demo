@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PatientsView = ({ onPatientClick }) => {
+const PatientsView = ({ onPatientClick, onNavigate }) => {
   const patients = [
     { id: 2, name: '25B3E02265', email: 'ghi@gmail.com', status: 'No Data', heartRate: '--', lastReading: 'No readings yet' },
     { id: 1, name: 'Tester', email: 'abcd123@gmail.com', status: 'No Data', heartRate: '--', lastReading: 'No readings yet' },
@@ -44,7 +44,7 @@ const PatientsView = ({ onPatientClick }) => {
                   <td className="center-cell">{p.heartRate}</td>
                   <td className="dim-cell">{p.lastReading}</td>
                   <td>
-                    <button className="btn-gradient chat-btn">Send Message</button>
+                    <button className="btn-gradient chat-btn" onClick={(e) => { e.stopPropagation(); onNavigate('communication', { chatId: p.id }); }}>Send Message</button>
                   </td>
                   <td>
                     <button className="view-details-btn" onClick={() => onPatientClick(p.id)}>
