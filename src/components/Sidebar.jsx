@@ -15,27 +15,27 @@ const Sidebar = ({ activeView, onViewChange, onLogout, theme, onToggleTheme, isO
       <div className="sidebar-header">
         <div className="logo-group">
           <div className="logo-icon-wrapper">
-            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2.5">
-               <path d="M20.42 4.58a5.44 5.44 0 0 0-7.71 0l-.71.71-.71-.71a5.44 5.44 0 0 0-7.71 7.71l.71.71L12 21l7.71-7.71.71-.71a5.44 5.44 0 0 0 0-7.71z" />
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M2 12h4l2-4 3 10 3-12 3 6h5" />
             </svg>
           </div>
           <div className="logo-text-group">
             <span className="logo-sub">RPM</span>
-            <span className="logo-main">MediConnect Portal</span>
+            <span className="logo-main">ProactiveCare</span>
           </div>
         </div>
       </div>
 
       <nav className="sidebar-nav">
         {menuItems.map((item) => (
-          <button 
-            key={item.id} 
+          <button
+            key={item.id}
             className={`nav-item ${activeView === item.id || (activeView === 'patient-profile' && item.id === 'patients') ? 'active' : ''}`}
             onClick={() => onViewChange(item.id)}
           >
             <div className="nav-icon-wrapper">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="nav-icon">
-                {item.id === 'patients' ? <><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></> : <path d={item.icon} />}
+                {item.id === 'patients' ? <><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></> : <path d={item.icon} />}
               </svg>
             </div>
             <span className="nav-label">{item.name}</span>
@@ -52,7 +52,7 @@ const Sidebar = ({ activeView, onViewChange, onLogout, theme, onToggleTheme, isO
           </div>
         </div>
         <button className="logout-link" onClick={onLogout}>
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '8px' }}><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '8px' }}><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
           Logout Session
         </button>
       </div>

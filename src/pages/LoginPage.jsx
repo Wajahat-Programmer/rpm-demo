@@ -28,13 +28,13 @@ const LoginPage = ({ onLogin }) => {
       <div className="login-card glass-card">
         <header className="login-header">
           <div className="logo-icon-wrapper">
-            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2.5">
-               <path d="M20.42 4.58a5.44 5.44 0 0 0-7.71 0l-.71.71-.71-.71a5.44 5.44 0 0 0-7.71 7.71l.71.71L12 21l7.71-7.71.71-.71a5.44 5.44 0 0 0 0-7.71z" />
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M2 12h4l2-4 3 10 3-12 3 6h5" />
             </svg>
           </div>
           <div className="logo-text">
             <span className="logo-sub">RPM</span>
-            <span className="logo-main">MediConnect Portal</span>
+            <span className="logo-main">ProactiveCare</span>
           </div>
           <h1>System Authorization</h1>
           <p>Enter your clinician credentials to access the monitoring suite.</p>
@@ -45,14 +45,14 @@ const LoginPage = ({ onLogin }) => {
             <label>Email Address</label>
             <div className="input-wrapper">
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" className="input-icon">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/>
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><path d="m22 6-10 7L2 6" />
               </svg>
-              <input 
-                type="email" 
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)} 
-                placeholder="admin@mediconnect.com" 
-                required 
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="admin@mediconnect.com"
+                required
               />
             </div>
           </div>
@@ -61,14 +61,14 @@ const LoginPage = ({ onLogin }) => {
             <label>Password</label>
             <div className="input-wrapper">
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" className="input-icon">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
               </svg>
-              <input 
-                type="password" 
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)} 
-                placeholder="••••••••" 
-                required 
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                required
               />
             </div>
           </div>
